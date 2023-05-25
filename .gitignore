@@ -1,4 +1,5 @@
 # Just apply source code, no need data
+/.vscode
 /data
 # compiled output
 /dist

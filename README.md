@@ -188,3 +188,33 @@ import { User } from './user/user';
 ```bash
 # nestjs-authentication-db-1   | mbind: Operation not permitted
 ```
+
+## Generate Auth Module
+
+- generate auth module
+
+```bash
+nest g module auth
+nest g controller auth
+nest g service auth
+```
+
+- remove auth.controller.spec.ts and auth.service.spec.ts
+
+```bash
+rm src/auth/auth.controller.spec.ts
+rm src/auth/auth.service.spec.ts
+```
+
+- install class-validator and class-transformer: in this project, use it for invisible password in response
+
+```bash
+npm install --save class-validator class-transformer
+```
+
+- install bcryptjs & for typescript
+
+```bash
+npm install --save bcryptjs @types/bcryptjs
+```
+
