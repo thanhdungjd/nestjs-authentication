@@ -70,3 +70,43 @@ CMD ["npm", "run", "start:dev"]
 $ docker build -t nestjs-authentication .
 $ docker run -p 8000:3000 nestjs-authentication
 ```
+
+## Create docker-compose.yml
+
+```bash
+$ touch docker-compose.yml
+```
+
+```yml
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8000:3000'
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.19
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nest_auth
+      MYSQL_USER: nest_auth
+      MYSQL_PASSWORD: nest_auth
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - '33066:3306'
+```
+
+- build and run with docker-compose
+
+```bash
+$ docker-compose up -d --build
+```
