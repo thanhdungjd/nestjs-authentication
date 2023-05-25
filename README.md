@@ -110,3 +110,81 @@ services:
 ```bash
 $ docker-compose up -d --build
 ```
+
+## Generate User Module
+
+- generate user module
+
+```bash
+nest g module user
+nest g controller user
+nest g service user
+```
+
+- remove user.controller.spec.ts and user.service.spec.ts
+
+```bash
+rm src/user/user.controller.spec.ts
+rm src/user/user.service.spec.ts
+```
+
+- create user entity
+
+```bash
+touch src/user/user.ts
+```
+
+- install typeorm
+
+```bash
+npm install --save @nestjs/typeorm typeorm mysql2
+```
+
+```ts
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity({ name: 'users' })
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ length: 500 })
+  name: string;
+
+  @Column({ length: 500 })
+  email: string;
+
+  @Column({ length: 500 })
+  password: string;
+}
+```
+
+- update app.module.ts
+
+```ts
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user/user';
+
+@Module({
+    imports: [
+        TypeOrmModule.forRoot({
+            type: 'mysql',
+            host: 'db',
+            port: 3306,
+            username: 'nest_auth',
+            password: 'nest_auth',
+            database: 'nest_auth',
+            entities: [User],
+            synchronize: true,
+        }),
+    ],
+
+})
+```
+
+- If you change the user entity, maybe you will get this error:
+
+```bash
+# nestjs-authentication-db-1   | mbind: Operation not permitted
+```
